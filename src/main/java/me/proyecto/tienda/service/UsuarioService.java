@@ -29,6 +29,24 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
+    public Optional<Usuario> obtenerPorNombreUsuario(String nombreUsuario){
+        return usuarioRepository.findByNombreUsuario(nombreUsuario);
+    }
+
+    public Usuario autenticar(String nombreUsuario, String contrasena){
+        Optional<Usuario> usuario = usuarioRepository.findByNombreUsuario(nombreUsuario);
+        
+        if(usuario.isEmpty()){
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
+        
+        if(!passwordEncoder.matches(contrasena, usuario.get().getContrasena())){
+            throw new IllegalArgumentException("Contraseña incorrecta");
+        }
+        
+        return usuario.get();
+    }
+
     public Usuario guardar(Usuario usuario){
         if(usuarioRepository.existsByEmail(usuario.getEmail())){
             throw new IllegalArgumentException("Email ya existe");
