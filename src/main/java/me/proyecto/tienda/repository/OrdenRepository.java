@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface OrdenRepository extends JpaRepository<Orden, Long> {
     List<Orden> findByUsuario(Usuario usuario);
+    List<Orden> findByUsuario_Id(Long usuarioId);
     List<Orden> findByEstado(EstadoOrden estado);
     List<Orden> findByUsuarioAndEstado(Usuario usuario, EstadoOrden estado);
     List<Orden> findByFechaCreacionBetween(LocalDateTime inicio, LocalDateTime fin);
